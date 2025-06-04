@@ -1,6 +1,6 @@
 # Sistema de Asistencia
 
-Este es un programa que ejecuta un cronómetro.
+Este es un programa que ejecuta un sistema de asistencia que registra la asistencia de los participantes y genera un reporte en PDF.
 
 Pasos para ejecutar tauri
 1. Instalar Rust, Node.js y el cliente de Tauri.
