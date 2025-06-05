@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Download } from 'lucide-react';
 import { useToast } from "@/hooks/use-toast";
 import jsPDF from 'jspdf';
-import 'jspdf-autotable'; // Import for side effects
+import autoTable from 'jspdf-autotable'; // Import for side effects
 
 interface ExportButtonProps {
   attendees: Attendee[];
@@ -79,39 +79,39 @@ export default function ExportButton({ attendees }: ExportButtonProps) {
         'Sin Marcar'
       ]);
 
-      doc.autoTable({
+      autoTable(doc, {
         head: [tableColumn],
         body: tableRows,
         startY: y,
-        theme: 'grid', 
+        theme: 'grid',
         styles: {
-          font: 'helvetica', 
+          font: 'helvetica',
           fontSize: 10,
         },
         headStyles: {
-          fillColor: [63, 81, 181], // Primary color hsl(231 48% 48%)
+          fillColor: [63, 81, 181],
           textColor: [255, 255, 255],
           fontStyle: 'bold',
           halign: 'center',
         },
         columnStyles: {
           0: { halign: 'left', cellWidth: 'auto' },
-          1: { halign: 'center', cellWidth: 80 }, 
+          1: { halign: 'center', cellWidth: 80 },
         },
-        didParseCell: function (data: { section: string; column: { index: number; }; cell: { raw: any; text: any[]; styles: { textColor: number[]; }; }; }) {
-          if (data.section === 'body' && data.column.index === 1) { // Status column (index 1)
+        didParseCell: function (data) {
+          if (data.section === 'body' && data.column.index === 1) {
             const cellText = typeof data.cell.raw === 'string' ? data.cell.raw : (data.cell.text && data.cell.text[0]) || '';
             if (cellText === 'Presente') {
-              data.cell.styles.textColor = [0, 100, 0]; // Dark Green
+              data.cell.styles.textColor = [0, 100, 0];
             } else if (cellText === 'Ausente') {
-              data.cell.styles.textColor = [200, 0, 0]; // Dark Red / Crimson
+              data.cell.styles.textColor = [200, 0, 0];
             } else if (cellText === 'Sin Marcar') {
-              data.cell.styles.textColor = [128, 128, 128]; // Gray
+              data.cell.styles.textColor = [128, 128, 128];
             }
           }
         },
-        margin: { horizontal: margin }, 
-        tableWidth: 'auto', 
+        margin: { horizontal: margin },
+        tableWidth: 'auto',
       });
       
       doc.save(`reporte_asistencia_${new Date().toISOString().split('T')[0]}.pdf`);
