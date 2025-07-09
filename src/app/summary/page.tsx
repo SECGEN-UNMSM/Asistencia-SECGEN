@@ -26,7 +26,7 @@ export default function SummaryPage() {
 
       <Card className="shadow-xl">
         <CardHeader>
-          <CardTitle className="text-3xl font-bold text-center text-primary">Reporte de Asistencia</CardTitle>
+          <CardTitle className="text-4xl font-bold text-center text-primary ">Reporte de Asistencia</CardTitle>
         </CardHeader>
         <CardContent>
           {attendees.length > 0 ? (

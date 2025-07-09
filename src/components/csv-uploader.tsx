@@ -105,7 +105,7 @@ export default function CsvUploader() {
             Formato soportado: .csv
           </p>
         </div>
-        <Button onClick={handleFileUpload} disabled={isLoading || !file} className="w-full bg-accent hover:bg-accent/90 text-accent-foreground">
+        <Button onClick={handleFileUpload} disabled={isLoading || !file} className="w-full bg-accent hover:bg-accent/90 text-accent-foreground font-semibold">
           <Upload className="mr-2 h-5 w-5" />
           {isLoading ? 'Procesando...' : 'Subir e Iniciar'}
         </Button>

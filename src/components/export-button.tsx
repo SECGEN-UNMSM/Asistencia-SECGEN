@@ -130,7 +130,7 @@ export default function ExportButton({ attendees }: ExportButtonProps) {
   };
 
   return (
-    <Button onClick={handleExport} variant="outline" className="w-full sm:w-auto">
+    <Button onClick={handleExport} variant="outline" className="w-full sm:w-auto font-semibold">
       <Download className="mr-2 h-5 w-5" />
       Exportar reporte
     </Button>

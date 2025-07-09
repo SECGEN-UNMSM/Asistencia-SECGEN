@@ -19,12 +19,12 @@ export default function AttendanceReport({ attendees }: AttendanceReportProps) {
     <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
       <Card className="shadow-lg">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-xl font-semibold">Presentes</CardTitle>
+          <CardTitle className="text-3xl font-semibold">Presentes</CardTitle>
           <CheckCircle2 className="h-6 w-6 text-green-500" />
         </CardHeader>
         <CardContent>
-          <div className="text-3xl font-bold text-green-500">{presentAttendees.length}</div>
-          <p className="text-xs text-muted-foreground">
+          <div className="text-5xl font-bold text-green-500">{presentAttendees.length}</div>
+          <p className="text-lg text-muted-foreground">
             de un total de {attendees.length} personas
           </p>
           <ScrollArea className="h-[200px] mt-4">
@@ -35,7 +35,7 @@ export default function AttendanceReport({ attendees }: AttendanceReportProps) {
                 ))}
               </ul>
             ) : (
-              <p className="text-sm text-muted-foreground italic">Ningún asistente marcado como presente.</p>
+              <p className="text-md text-muted-foreground italic">Ningún asistente marcado como presente.</p>
             )}
           </ScrollArea>
         </CardContent>
@@ -43,12 +43,12 @@ export default function AttendanceReport({ attendees }: AttendanceReportProps) {
 
       <Card className="shadow-lg">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-xl font-semibold">Ausentes</CardTitle>
+          <CardTitle className="text-3xl font-semibold">Ausentes</CardTitle>
           <XCircle className="h-6 w-6 text-red-500" />
         </CardHeader>
         <CardContent>
-          <div className="text-3xl font-bold text-red-500">{absentAttendees.length}</div>
-           <p className="text-xs text-muted-foreground">
+          <div className="text-5xl font-bold text-red-500">{absentAttendees.length}</div>
+           <p className="text-lg text-muted-foreground">
             de un total de {attendees.length} personas
           </p>
           <ScrollArea className="h-[200px] mt-4">
@@ -59,7 +59,7 @@ export default function AttendanceReport({ attendees }: AttendanceReportProps) {
                 ))}
               </ul>
             ) : (
-              <p className="text-sm text-muted-foreground italic">Ningún asistente marcado como ausente.</p>
+              <p className="text-md text-muted-foreground italic">Ningún asistente marcado como ausente.</p>
             )}
           </ScrollArea>
         </CardContent>
@@ -67,12 +67,12 @@ export default function AttendanceReport({ attendees }: AttendanceReportProps) {
 
       <Card className="shadow-lg md:col-span-2 lg:col-span-1">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-xl font-semibold">Sin Marcar</CardTitle>
+          <CardTitle className="text-3xl font-semibold">Sin Marcar</CardTitle>
           <HelpCircle className="h-6 w-6 text-muted-foreground" />
         </CardHeader>
         <CardContent>
-          <div className="text-3xl font-bold text-muted-foreground">{unmarkedAttendees.length}</div>
-           <p className="text-xs text-muted-foreground">
+          <div className="text-5xl font-bold text-muted-foreground">{unmarkedAttendees.length}</div>
+           <p className="text-lg text-muted-foreground">
             de un total de {attendees.length} personas
           </p>
           <ScrollArea className="h-[200px] mt-4">
