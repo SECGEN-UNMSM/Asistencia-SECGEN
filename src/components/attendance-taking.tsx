@@ -1,18 +1,31 @@
-
 "use client";
 
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
-import { useAttendance, type Attendee } from '@/contexts/attendance-context';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
+import React, { useState, useEffect, useCallback, useMemo } from "react";
+import { useAttendance, type Attendee } from "@/contexts/attendance-context";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardFooter,
+} from "@/components/ui/card";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { Progress } from "@/components/ui/progress";
 import { Input } from "@/components/ui/input";
-import { useRouter } from 'next/navigation';
-import { SkipBack, SkipForward, CheckCircle2, XCircle, ListChecks, Search, Users } from 'lucide-react';
+import { useRouter } from "next/navigation";
+import {
+  SkipBack,
+  SkipForward,
+  CheckCircle2,
+  XCircle,
+  ListChecks,
+  Search,
+  Users,
+} from "lucide-react";
 
 export default function AttendanceTaking() {
   const { attendees, updateAttendeeStatus } = useAttendance();
@@ -24,64 +37,70 @@ export default function AttendanceTaking() {
     if (!searchTerm) {
       return attendees;
     }
-    return attendees.filter(attendee =>
+    return attendees.filter((attendee) =>
       attendee.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
   }, [attendees, searchTerm]);
 
   const handleNext = () => {
     if (currentIndex < attendees.length - 1) {
-      setCurrentIndex(prev => prev + 1);
+      setCurrentIndex((prev) => prev + 1);
     }
   };
 
   const handlePrevious = () => {
     if (currentIndex > 0) {
-      setCurrentIndex(prev => prev - 1);
+      setCurrentIndex((prev) => prev - 1);
     }
   };
-  
-  const currentAttendee = attendees[currentIndex]; 
-  const progress = attendees.length > 0 ? ((attendees.filter(a => a.status !== 'unmarked').length) / attendees.length) * 100 : 0;
 
+  const currentAttendee = attendees[currentIndex];
+  const progress =
+    attendees.length > 0
+      ? (attendees.filter((a) => a.status !== "unmarked").length /
+          attendees.length) *
+        100
+      : 0;
 
   useEffect(() => {
-    if (currentAttendee && !filteredAttendees.find(a => a.id === currentAttendee.id) && filteredAttendees.length > 0) {
+    if (
+      currentAttendee &&
+      !filteredAttendees.find((a) => a.id === currentAttendee.id) &&
+      filteredAttendees.length > 0
+    ) {
       // This logic might need refinement if search causes jumps. For now, it's kept as is.
       // const originalIndexOfFirstFiltered = attendees.findIndex(a => a.id === filteredAttendees[0].id);
       // if (originalIndexOfFirstFiltered !== -1) {
-      // // setCurrentIndex(originalIndexOfFirstFiltered); 
+      // // setCurrentIndex(originalIndexOfFirstFiltered);
       // }
     }
   }, [searchTerm, filteredAttendees, currentAttendee, attendees]);
 
-
   const handleAttendeeSelect = (attendeeId: string) => {
-    const originalIndex = attendees.findIndex(a => a.id === attendeeId);
+    const originalIndex = attendees.findIndex((a) => a.id === attendeeId);
     if (originalIndex !== -1) {
       setCurrentIndex(originalIndex);
     }
   };
 
-  const presentCount = attendees.filter(a => a.status === 'present').length;
-  const absentCount = attendees.filter(a => a.status === 'absent').length;
-
+  const presentCount = attendees.filter((a) => a.status === "present").length;
+  const absentCount = attendees.filter((a) => a.status === "absent").length;
 
   if (attendees.length === 0) {
     return <p>No hay asistentes cargados. Por favor, sube un archivo CSV.</p>;
   }
 
   return (
-    <div className="container mx-auto p-4 space-y-6 ">
+    <div className="container mx-auto p-4 space-y-6">
       <div className="flex flex-col lg:flex-row gap-6">
         <Card className="shadow-xl lg:flex-grow">
           <CardHeader>
-            <CardTitle className="text-4xl font-bold text-center text-primary">
+            <CardTitle className="text-4xl font-bold text-center text-black">
               Tomar Asistencia
             </CardTitle>
             <Progress
               value={progress}
-              className="w-full mt-2"
+              className="w-full mt-2 bg-primary/20"
               aria-label={`${progress.toFixed(0)}% completado`}
             />
             <p className="text-center text-muted-foreground mt-1">{`Asistente ${
@@ -90,9 +109,9 @@ export default function AttendanceTaking() {
           </CardHeader>
           {currentAttendee && (
             <CardContent className="space-y-6">
-              <div className="text-center p-6 bg-secondary/50 rounded-lg shadow">
+              <div className="text-center p-6 bg-primary/10 rounded-lg shadow">
                 <h2
-                  className="text-4xl font-semibold text-primary my-2"
+                  className="text-4xl font-semibold text-black my-2"
                   data-ai-hint="person name"
                 >
                   {currentAttendee.name}
@@ -103,16 +122,16 @@ export default function AttendanceTaking() {
                 <Button
                   onClick={handlePrevious}
                   disabled={currentIndex === 0}
-                  variant="outline"
                   size="lg"
+                  className="bg-accent hover:bg-accent/90 text-accent-foreground"
                 >
                   <SkipBack className="mr-2 h-5 w-5" /> Anterior
                 </Button>
                 <Button
                   onClick={handleNext}
                   disabled={currentIndex === attendees.length - 1}
-                  variant="outline"
                   size="lg"
+                  className="bg-accent hover:bg-accent/90 text-accent-foreground"
                 >
                   Siguiente <SkipForward className="ml-2 h-5 w-5" />
                 </Button>
@@ -136,7 +155,7 @@ export default function AttendanceTaking() {
                   />
                   <Label
                     htmlFor={`status-present-${currentAttendee.id}`}
-                    className="flex items-center justify-center w-48 h-16 p-3 border-2 rounded-lg shadow-md cursor-pointer text-2xl font-semibold
+                    className="flex items-center justify-center w-48 h-16 p-3 border-2 rounded-lg shadow-md cursor-pointer text-lg font-semibold
                                transition-all duration-150 ease-in-out
                                peer-data-[state=unchecked]:bg-card peer-data-[state=unchecked]:text-card-foreground peer-data-[state=unchecked]:border-border
                                peer-data-[state=checked]:bg-green-600 peer-data-[state=checked]:text-white peer-data-[state=checked]:border-green-700
@@ -154,7 +173,7 @@ export default function AttendanceTaking() {
                   />
                   <Label
                     htmlFor={`status-absent-${currentAttendee.id}`}
-                    className="flex items-center justify-center w-48 h-16 p-3 border-2 rounded-lg shadow-md cursor-pointer text-2xl font-semibold
+                    className="flex items-center justify-center w-48 h-16 p-3 border-2 rounded-lg shadow-md cursor-pointer text-lg font-semibold
                                transition-all duration-150 ease-in-out
                                peer-data-[state=unchecked]:bg-card peer-data-[state=unchecked]:text-card-foreground peer-data-[state=unchecked]:border-border
                                peer-data-[state=checked]:bg-red-600 peer-data-[state=checked]:text-white peer-data-[state=checked]:border-red-700
@@ -171,7 +190,7 @@ export default function AttendanceTaking() {
             <Button
               onClick={() => router.push("/summary")}
               size="lg"
-              className="bg-accent hover:bg-accent/90 text-accent-foreground font-semibold"
+              className="bg-accent hover:bg-accent/90 text-accent-foreground"
             >
               <ListChecks className="mr-2 h-5 w-5" /> Ver Registro
             </Button>
@@ -180,19 +199,19 @@ export default function AttendanceTaking() {
 
         <Card className="shadow-xl lg:w-full lg:max-w-xs xl:max-w-sm">
           <CardHeader>
-            <CardTitle className="text-4xl text-center text-primary">
+            <CardTitle className="text-4xl text-center text-black">
               Resumen
             </CardTitle>
           </CardHeader>
-          <CardContent className="space-y-3 text-2xl">
-            <div className="flex items-center justify-between p-3 bg-secondary/30 rounded-md">
+          <CardContent className="space-y-3 text-3xl">
+            <div className="flex items-center justify-between p-3 bg-primary/10 rounded-md">
               <div className="flex items-center">
                 <CheckCircle2 className="mr-3 h-6 w-6 text-green-500" />
                 <span className="font-medium">Presentes:</span>
               </div>
               <span className="font-bold text-green-500">{presentCount}</span>
             </div>
-            <div className="flex items-center justify-between p-3 bg-secondary/30 rounded-md">
+            <div className="flex items-center justify-between p-3 bg-primary/10 rounded-md">
               <div className="flex items-center">
                 <XCircle className="mr-3 h-6 w-6 text-red-500" />
                 <span className="font-medium">Ausentes:</span>
@@ -214,13 +233,13 @@ export default function AttendanceTaking() {
         <CardHeader>
           <CardTitle className="text-2xl">Lista de Asistentes</CardTitle>
           <div className="relative mt-2">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-black/80" />
             <Input
               type="search"
               placeholder="Buscar asistente..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-10 w-full"
+              className="pl-10 w-full bg-primary/10 text-black placeholder:text-black/60 focus-visible:ring-primary/80"
               aria-label="Buscar asistente"
             />
           </div>
@@ -231,9 +250,9 @@ export default function AttendanceTaking() {
               filteredAttendees.map((attendee, index) => (
                 <React.Fragment key={attendee.id}>
                   <div
-                    className={`flex justify-between items-center p-3 cursor-pointer hover:bg-secondary/70 ${
+                    className={`flex justify-between items-center p-3 cursor-pointer hover:bg-primary/20 ${
                       attendee.id === currentAttendee?.id
-                        ? "bg-secondary shadow-md ring-2 ring-primary"
+                        ? "bg-primary/20 shadow-md ring-2 ring-primary"
                         : ""
                     }`}
                     onClick={() => handleAttendeeSelect(attendee.id)}
@@ -246,13 +265,7 @@ export default function AttendanceTaking() {
                     }}
                     aria-label={`Seleccionar ${attendee.name}`}
                   >
-                    <span
-                      className={`font-medium ${
-                        attendee.id === currentAttendee?.id
-                          ? "text-primary"
-                          : ""
-                      }`}
-                    >
+                    <span className={`font-medium text-black`}>
                       {attendee.name}
                     </span>
                     <span
@@ -261,7 +274,7 @@ export default function AttendanceTaking() {
                           ? "text-green-600"
                           : attendee.status === "absent"
                           ? "text-red-600"
-                          : "" // No text for unmarked
+                          : ""
                       }`}
                     >
                       {attendee.status === "present"
