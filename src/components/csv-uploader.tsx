@@ -14,9 +14,14 @@ import {
 } from "@/components/ui/card";
 import { Upload } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import Image from "next/image";
+import { Label } from "./ui/label";
+import { RadioGroup, RadioGroupItem } from "./ui/radio-group";
+import { useSession } from "@/contexts/session-context";
 
 export default function CsvUploader() {
   const { loadAttendees } = useAttendance();
+  const { setSession } = useSession();
   const [file, setFile] = useState<File | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
@@ -105,37 +110,61 @@ export default function CsvUploader() {
   };
 
   return (
-    <Card className="w-full max-w-md shadow-lg">
-      <CardHeader>
-        <CardTitle className="text-2xl">Subir Lista de Asistencia</CardTitle>
-        <CardDescription>
-          Selecciona un archivo CSV que contenga la lista de nombres de los
-          asistentes.
-        </CardDescription>
-      </CardHeader>
-      <CardContent className="space-y-4">
-        <div className="space-y-2">
-          <Input
-            id="csv-upload"
-            type="file"
-            accept=".csv"
-            onChange={handleFileChange}
-            className="file:text-black bg-primary/10 text-black placeholder:text-black/60 focus-visible:ring-primary/80 border-black/30"
-            aria-label="Upload CSV file"
-          />
-          <p className="text-xs text-muted-foreground">
-            Formato soportado: .csv
-          </p>
-        </div>
-        <Button
-          onClick={handleFileUpload}
-          disabled={isLoading || !file}
-          className="w-full bg-accent hover:bg-accent/90 text-accent-foreground"
-        >
-          <Upload className="mr-2 h-5 w-5" />
-          {isLoading ? "Procesando..." : "Subir e Iniciar"}
-        </Button>
-      </CardContent>
-    </Card>
+    <div className="flex justify-center items-center gap-16">
+      <Image
+        src="UNMSM_Transparente.svg"
+        width={320}
+        height={320}
+        alt="Logo UNMSM"
+      />
+      <Card className="w-full max-w-md shadow-lg">
+        <CardHeader>
+          <CardTitle className="text-2xl text-center">
+            Sistema de Asistencia
+          </CardTitle>
+          {/*<CardDescription>
+            Selecciona un archivo CSV que contenga la lista de nombres de los
+            asistentes.
+          </CardDescription>*/}
+        </CardHeader>
+        <CardContent className="flex flex-col gap-4">
+          <div className="flex flex-col gap-2">
+            <Label className="font-bold text-md">Selecciona una opción</Label>
+            <RadioGroup defaultValue="ordinario" onValueChange={(value) => setSession(value === "ordinario" ? "Ordinario" : "Extraordinario")}>
+              <div className="flex items-center gap-3">
+                <RadioGroupItem value="ordinario" id="opcOrdinario" />
+                <Label htmlFor="opcOrdinario">Ordinario</Label>
+              </div>
+              <div className="flex items-center gap-3">
+                <RadioGroupItem value="extraordinario" id="opcExtraordinario" />
+                <Label htmlFor="opcExtraordinario">Extraordinario</Label>
+              </div>
+            </RadioGroup>
+          </div>
+          <div className="space-y-2">
+            <Label className="font-semibold text-md">Subir la lista de asistentes</Label>
+            <Input
+              id="csv-upload"
+              type="file"
+              accept=".csv"
+              onChange={handleFileChange}
+              className="file:text-black bg-primary/10 text-black placeholder:text-black/60 focus-visible:ring-primary/80 border-black/30"
+              aria-label="Upload CSV file"
+            />
+            <p className="text-xs text-muted-foreground">
+              Formato soportado: .csv
+            </p>
+          </div>
+          <Button
+            onClick={handleFileUpload}
+            disabled={isLoading || !file}
+            className="w-full bg-accent hover:bg-accent/90 text-accent-foreground"
+          >
+            <Upload className="mr-2 h-5 w-5" />
+            {isLoading ? "Procesando..." : "Subir e Iniciar"}
+          </Button>
+        </CardContent>
+      </Card>
+    </div>
   );
 }

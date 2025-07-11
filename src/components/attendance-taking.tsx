@@ -95,15 +95,15 @@ export default function AttendanceTaking() {
       <div className="flex flex-col lg:flex-row gap-6">
         <Card className="shadow-xl lg:flex-grow">
           <CardHeader>
-            <CardTitle className="text-4xl font-bold text-center text-black">
+            {/*<CardTitle className="text-4xl font-bold text-center text-black">
               Tomar Asistencia
-            </CardTitle>
+            </CardTitle>*/}
             <Progress
               value={progress}
               className="w-full mt-2 bg-primary/20"
               aria-label={`${progress.toFixed(0)}% completado`}
             />
-            <p className="text-center text-muted-foreground mt-1">{`Asistente ${
+            <p className="text-center text-lg text-muted-foreground mt-1">{`Asistente ${
               currentIndex + 1
             } de ${attendees.length}`}</p>
           </CardHeader>
@@ -206,10 +206,10 @@ export default function AttendanceTaking() {
           <CardContent className="space-y-3 text-3xl">
             <div className="flex items-center justify-between p-3 bg-primary/10 rounded-md">
               <div className="flex items-center">
-                <CheckCircle2 className="mr-3 h-6 w-6 text-green-500" />
-                <span className="font-medium">Presentes:</span>
+                <CheckCircle2 className="mr-3 h-6 w-6 text-[#009900]" />
+                <span className="font-medium">Asistentes:</span>
               </div>
-              <span className="font-bold text-green-500">{presentCount}</span>
+              <span className="font-bold text-[#009900]">{presentCount}</span>
             </div>
             <div className="flex items-center justify-between p-3 bg-primary/10 rounded-md">
               <div className="flex items-center">
@@ -218,12 +218,14 @@ export default function AttendanceTaking() {
               </div>
               <span className="font-bold text-red-500">{absentCount}</span>
             </div>
-            <div className="flex items-center justify-between p-3 bg-primary/10 rounded-md mt-4">
+            <div className="flex items-center justify-between p-3 bg-primary/10 rounded-md mt-4 text-4xl">
               <div className="flex items-center">
-                <Users className="mr-3 h-6 w-6 text-primary" />
+                <Users className="mr-3 h-6 w-6 text-[#9E8110]" />
                 <span className="font-medium">Total:</span>
               </div>
-              <span className="font-bold text-primary">{attendees.length}</span>
+              <span className="font-bold text-[#9E8110]">
+                {attendees.length}
+              </span>
             </div>
           </CardContent>
         </Card>

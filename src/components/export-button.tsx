@@ -7,6 +7,7 @@ import { Download } from 'lucide-react';
 import { useToast } from "@/hooks/use-toast";
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable'; // Import for side effects
+import { useSession } from '@/contexts/session-context';
 
 interface ExportButtonProps {
   attendees: Attendee[];
@@ -21,6 +22,7 @@ declare module 'jspdf' {
 
 export default function ExportButton({ attendees }: ExportButtonProps) {
   const { toast } = useToast();
+  const { session } = useSession();
 
   const handleExport = () => {
     if (attendees.length === 0) {
@@ -58,14 +60,32 @@ export default function ExportButton({ attendees }: ExportButtonProps) {
       doc.setFont('helvetica', 'normal');
       const summaryLines = [
         `Fecha: ${new Date().toLocaleDateString()}`,
+        `Sesión: ${session}`,
         `Total de Asistentes: ${attendees.length}`,
         `Presentes: ${presentAttendees.length}`,
         `Ausentes: ${absentAttendees.length}`,
         `Sin Marcar: ${unmarkedAttendees.length}`,
       ];
       summaryLines.forEach(line => {
-        const lineWidth = doc.getTextWidth(line);
-        doc.text(line, (pageWidth - lineWidth) / 2, y);
+        let displayLine = line;
+        
+        if (line.startsWith("Sesión:")) {
+          if (session === "Ordinario") {
+            // Cambiar la terminación de Ordinario por Ordinaria
+            displayLine = "Sesión: Ordinaria"
+          } else if (session === "Extraordinario") {
+            // Cambiar la terminación de Extraordinario por Extraordinaria
+            displayLine = "Sesión: Extraordinaria";
+          } 
+          doc.setTextColor(158, 129, 16); // azul
+          doc.setFont("helvetica", "bolditalic");
+        } else {
+          doc.setTextColor(0, 0, 0);
+          doc.setFont("helvetica", "normal");
+        }
+        
+        const lineWidth = doc.getTextWidth(displayLine);
+        doc.text(displayLine, (pageWidth - lineWidth) / 2, y);
         y += summaryFontSize * 0.6 + 2; 
       });
       y += 10; 

@@ -15,14 +15,14 @@ export default function AttendanceReport({ attendees }: AttendanceReportProps) {
   const unmarkedAttendees = attendees.filter((a) => a.status === "unmarked");
 
   return (
-    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-6">
       <Card className="shadow-lg">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-3xl font-semibold">Presentes</CardTitle>
-          <CheckCircle2 className="h-6 w-6 text-green-500" />
+          <CardTitle className="text-3xl font-semibold">Asistentes</CardTitle>
+          <CheckCircle2 className="h-6 w-6 text-[#009900]" />
         </CardHeader>
         <CardContent>
-          <div className="text-4xl font-bold text-green-500">
+          <div className="text-4xl font-bold text-[#009900]">
             {presentAttendees.length}
           </div>
           <p className="text-lg text-muted-foreground">
@@ -42,7 +42,7 @@ export default function AttendanceReport({ attendees }: AttendanceReportProps) {
                 ))}
               </ul>
             ) : (
-              <p className="text-sm text-muted-foreground italic">
+              <p className="text-lg text-muted-foreground italic">
                 Ningún asistente marcado como presente.
               </p>
             )}
@@ -76,14 +76,14 @@ export default function AttendanceReport({ attendees }: AttendanceReportProps) {
                 ))}
               </ul>
             ) : (
-              <p className="text-sm text-muted-foreground italic">
+              <p className="text-lg text-muted-foreground italic">
                 Ningún asistente marcado como ausente.
               </p>
             )}
           </ScrollArea>
         </CardContent>
       </Card>
-
+      {/*
       <Card className="shadow-lg md:col-span-2 lg:col-span-1">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-3xl font-semibold">Sin Marcar</CardTitle>
@@ -117,6 +117,8 @@ export default function AttendanceReport({ attendees }: AttendanceReportProps) {
           </ScrollArea>
         </CardContent>
       </Card>
+      */
+      }
     </div>
   );
 }
