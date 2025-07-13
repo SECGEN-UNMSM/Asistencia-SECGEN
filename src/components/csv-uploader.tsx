@@ -8,7 +8,6 @@ import { Input } from "@/components/ui/input";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -130,7 +129,7 @@ export default function CsvUploader() {
         <CardContent className="flex flex-col gap-4">
           <div className="flex flex-col gap-2">
             <Label className="font-bold text-md">Selecciona una opción</Label>
-            <RadioGroup defaultValue="ordinario" onValueChange={(value) => setSession(value === "ordinario" ? "Ordinario" : "Extraordinario")}>
+            <RadioGroup defaultValue="ordinario" onValueChange={(value) => setSession(value === "ordinario" ? "Ordinaria" : "Extraordinaria")}>
               <div className="flex items-center gap-3">
                 <RadioGroupItem value="ordinario" id="opcOrdinario" />
                 <Label htmlFor="opcOrdinario">Ordinario</Label>

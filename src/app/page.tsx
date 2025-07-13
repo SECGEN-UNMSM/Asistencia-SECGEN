@@ -4,7 +4,6 @@
 import CsvUploader from '@/components/csv-uploader';
 import AttendanceTaking from '@/components/attendance-taking';
 import { useAttendance } from '@/contexts/attendance-context';
-import Image from 'next/image';
 
 export default function HomePage() {
   const { attendees } = useAttendance();

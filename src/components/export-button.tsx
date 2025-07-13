@@ -67,16 +67,9 @@ export default function ExportButton({ attendees }: ExportButtonProps) {
         `Sin Marcar: ${unmarkedAttendees.length}`,
       ];
       summaryLines.forEach(line => {
-        let displayLine = line;
+        const lineWidth = doc.getTextWidth(line);
         
         if (line.startsWith("Sesión:")) {
-          if (session === "Ordinario") {
-            // Cambiar la terminación de Ordinario por Ordinaria
-            displayLine = "Sesión: Ordinaria"
-          } else if (session === "Extraordinario") {
-            // Cambiar la terminación de Extraordinario por Extraordinaria
-            displayLine = "Sesión: Extraordinaria";
-          } 
           doc.setTextColor(158, 129, 16); // azul
           doc.setFont("helvetica", "bolditalic");
         } else {
@@ -84,8 +77,7 @@ export default function ExportButton({ attendees }: ExportButtonProps) {
           doc.setFont("helvetica", "normal");
         }
         
-        const lineWidth = doc.getTextWidth(displayLine);
-        doc.text(displayLine, (pageWidth - lineWidth) / 2, y);
+        doc.text(line, (pageWidth - lineWidth) / 2, y);
         y += summaryFontSize * 0.6 + 2; 
       });
       y += 10; 
