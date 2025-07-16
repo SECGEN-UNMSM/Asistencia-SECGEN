@@ -2,7 +2,11 @@
 
 import type { ChangeEvent } from "react";
 import React, { useState } from "react";
-import { useAttendance } from "@/contexts/attendance-context";
+import {
+  useAttendance,
+  type SessionGroup,
+  type SessionMeeting,
+} from "@/contexts/attendance-context";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -15,21 +19,26 @@ import {
 import { Upload } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import Image from "next/image";
-import { Label } from "./ui/label";
-import { RadioGroup, RadioGroupItem } from "./ui/radio-group";
-import { useSession } from "@/contexts/session-context";
 
 export default function CsvUploader() {
   const { loadAttendees } = useAttendance();
-  const { setSession } = useSession();
   const [file, setFile] = useState<File | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [sessionGroup, setSessionGroup] = useState<SessionGroup | null>(null);
+  const [sessionMeeting, setSessionMeeting] = useState<SessionMeeting | null>(
+    null
+  );
   const { toast } = useToast();
 
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
       setFile(event.target.files[0]);
     }
+  };
+
+  const handleSessionGroupSelect = (group: SessionGroup) => {
+    setSessionGroup(group);
+    setSessionMeeting(null); // Reset meeting selection when group changes
   };
 
   const handleFileUpload = async () => {
@@ -41,14 +50,20 @@ export default function CsvUploader() {
       });
       return;
     }
+    if (!sessionGroup || !sessionMeeting) {
+      toast({
+        title: "Selección de sesión incompleta",
+        description: "Por favor, elige el tipo y la modalidad de la sesión.",
+        variant: "destructive",
+      });
+      return;
+    }
 
     setIsLoading(true);
     const reader = new FileReader();
     reader.onload = (e) => {
       try {
         const text = e.target?.result as string;
-        // Basic CSV parsing: assumes names are in the first column, one name per line.
-        // Skips header row if present (simple check for common "name" keywords).
         const lines = text
           .split(/\r\n|\n/)
           .filter((line) => line.trim() !== "");
@@ -81,7 +96,7 @@ export default function CsvUploader() {
           return;
         }
 
-        loadAttendees(names);
+        loadAttendees(names, { group: sessionGroup, meeting: sessionMeeting });
         toast({
           title: "CSV subido con éxito",
           description: `${names.length} asistentes cargados correctamente.`,
@@ -110,39 +125,91 @@ export default function CsvUploader() {
   };
 
   return (
-    <div className="flex justify-center items-center gap-16">
-      <Image
-        src="UNMSM_Transparente.svg"
-        width={320}
-        height={320}
-        alt="Logo UNMSM"
-      />
+    <div className="flex flex-row items-stretch justify-center gap-8 space-x-4">
+      <div className="flex justify-center items-center gap-16">
+        <Image
+          src="UNMSM_Transparente.svg"
+          width={360}
+          height={360}
+          alt="Logo UNMSM"
+        />
+      </div>
       <Card className="w-full max-w-md shadow-lg">
         <CardHeader>
           <CardTitle className="text-2xl text-center">
-            Sistema de Asistencia
+            Subir Lista de Asistencia
           </CardTitle>
-          {/*<CardDescription>
-            Selecciona un archivo CSV que contenga la lista de nombres de los
-            asistentes.
-          </CardDescription>*/}
         </CardHeader>
-        <CardContent className="flex flex-col gap-4">
-          <div className="flex flex-col gap-2">
-            <Label className="font-bold text-md">Selecciona una opción</Label>
-            <RadioGroup defaultValue="ordinario" onValueChange={(value) => setSession(value === "ordinario" ? "Ordinario" : "Extraordinario")}>
-              <div className="flex items-center gap-3">
-                <RadioGroupItem value="ordinario" id="opcOrdinario" />
-                <Label htmlFor="opcOrdinario">Ordinario</Label>
+        <CardContent className="space-y-4">
+          <div className="space-y-3 text-left">
+            <h3 className="text-sm font-bold text-black">
+              Seleccione el tipo de reunión:
+            </h3>
+            <div className="flex justify-start gap-4">
+              <Button
+                onClick={() => handleSessionGroupSelect("Consejo")}
+                variant={sessionGroup === "Consejo" ? "default" : "outline"}
+                className={`flex-1 ${
+                  sessionGroup === "Consejo"
+                    ? "bg-accent text-accent-foreground"
+                    : "bg-primary/10"
+                }`}
+              >
+                Consejo
+              </Button>
+              <Button
+                onClick={() => handleSessionGroupSelect("Asamblea")}
+                variant={sessionGroup === "Asamblea" ? "default" : "outline"}
+                className={`flex-1 ${
+                  sessionGroup === "Asamblea"
+                    ? "bg-accent text-accent-foreground"
+                    : "bg-primary/10"
+                }`}
+              >
+                Asamblea
+              </Button>
+            </div>
+
+            {sessionGroup && (
+              <div className="space-y-3">
+                <h3 className="text-sm text-black pt-2">
+                  Seleccione el tipo de sesión:
+                </h3>
+                <div className="flex justify-start gap-4">
+                  <Button
+                    onClick={() => setSessionMeeting("Ordinaria")}
+                    variant={
+                      sessionMeeting === "Ordinaria" ? "default" : "outline"
+                    }
+                    className={`flex-1 ${
+                      sessionMeeting === "Ordinaria"
+                        ? "bg-accent text-accent-foreground"
+                        : "bg-primary/10"
+                    }`}
+                  >
+                    Ordinaria
+                  </Button>
+                  <Button
+                    onClick={() => setSessionMeeting("Extraordinaria")}
+                    variant={
+                      sessionMeeting === "Extraordinaria"
+                        ? "default"
+                        : "outline"
+                    }
+                    className={`flex-1 ${
+                      sessionMeeting === "Extraordinaria"
+                        ? "bg-accent text-accent-foreground"
+                        : "bg-primary/10"
+                    }`}
+                  >
+                    Extraordinaria
+                  </Button>
+                </div>
               </div>
-              <div className="flex items-center gap-3">
-                <RadioGroupItem value="extraordinario" id="opcExtraordinario" />
-                <Label htmlFor="opcExtraordinario">Extraordinario</Label>
-              </div>
-            </RadioGroup>
+            )}
           </div>
+
           <div className="space-y-2">
-            <Label className="font-semibold text-md">Subir la lista de asistentes</Label>
             <Input
               id="csv-upload"
               type="file"
@@ -151,13 +218,13 @@ export default function CsvUploader() {
               className="file:text-black bg-primary/10 text-black placeholder:text-black/60 focus-visible:ring-primary/80 border-black/30"
               aria-label="Upload CSV file"
             />
-            <p className="text-xs text-muted-foreground">
-              Formato soportado: .csv
+            <p className="text-xs text-left text-muted-foreground">
+              El archivo debe ser formato .csv
             </p>
           </div>
           <Button
             onClick={handleFileUpload}
-            disabled={isLoading || !file}
+            disabled={isLoading || !file || !sessionGroup || !sessionMeeting}
             className="w-full bg-accent hover:bg-accent/90 text-accent-foreground"
           >
             <Upload className="mr-2 h-5 w-5" />
