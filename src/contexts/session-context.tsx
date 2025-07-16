@@ -1,7 +1,7 @@
 "use client";
 
 import type { ReactNode } from "react";
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useMemo, useState } from "react";
 
 interface SessionContextType {
   session: string;
@@ -13,14 +13,18 @@ const SessionContext = createContext<SessionContextType | undefined>(
 );
 
 export const SessionProvider = ({ children }: { children: ReactNode }) => {
-  const [session, setSession] = useState("");
+  const [session, setSession] = useState("Ordinaria");
+
+  const valoresContexto = useMemo(() => {
+    return {
+      session,
+      setSession,
+    };
+  }, [session, setSession])
 
   return (
     <SessionContext.Provider
-      value={{
-        session,
-        setSession,
-      }}
+      value={valoresContexto}
     >
       {children}
     </SessionContext.Provider>
