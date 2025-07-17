@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { AttendanceProvider } from "@/contexts/attendance-context";
+import { SettingsProvider } from "@/contexts/settings-context";
 import { Toaster } from "@/components/ui/toaster";
 import AppHeader from "@/components/app-header";
-import { SessionProvider } from "@/contexts/session-context";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -18,7 +18,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Control de Asistencia",
-  description: "Control de asistencia de los consejos universitarios de la UNMSM.",
+  description: "Streamlined attendance tracking with AI name announcement.",
 };
 
 export default function RootLayout({
@@ -27,12 +27,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="es">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background text-foreground flex flex-col min-h-screen`}
-      >
+    <html lang="en">
+      <SettingsProvider>
         <AttendanceProvider>
-          <SessionProvider>
+          <body
+            className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background text-foreground flex flex-col min-h-screen`}
+          >
             <AppHeader />
             <main className="flex-grow min-h-[calc(100vh-var(--header-height,4rem)-var(--footer-height,2.5rem))]">
               {children}
@@ -44,9 +44,9 @@ export default function RootLayout({
             >
               <p>&copy; Unidad de Informática - SECGEN</p>
             </footer>
-          </SessionProvider>
+          </body>
         </AttendanceProvider>
-      </body>
+      </SettingsProvider>
     </html>
   );
 }
