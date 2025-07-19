@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useCallback, useMemo } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { useAttendance, type Attendee } from "@/contexts/attendance-context";
 import { Button } from "@/components/ui/button";
 import {
@@ -155,7 +155,7 @@ export default function AttendanceTaking() {
                   />
                   <Label
                     htmlFor={`status-present-${currentAttendee.id}`}
-                    className="flex items-center justify-center w-48 h-16 p-3 border-2 rounded-lg shadow-md cursor-pointer text-lg font-semibold
+                    className="flex items-center justify-center w-56 h-16 p-3 border-2 rounded-lg shadow-md cursor-pointer text-lg font-semibold
                                transition-all duration-150 ease-in-out
                                peer-data-[state=unchecked]:bg-card peer-data-[state=unchecked]:text-card-foreground peer-data-[state=unchecked]:border-border
                                peer-data-[state=checked]:bg-green-600 peer-data-[state=checked]:text-white peer-data-[state=checked]:border-green-700
@@ -173,7 +173,7 @@ export default function AttendanceTaking() {
                   />
                   <Label
                     htmlFor={`status-absent-${currentAttendee.id}`}
-                    className="flex items-center justify-center w-48 h-16 p-3 border-2 rounded-lg shadow-md cursor-pointer text-lg font-semibold
+                    className="flex items-center justify-center w-56 h-16 p-3 border-2 rounded-lg shadow-md cursor-pointer text-lg font-semibold
                                transition-all duration-150 ease-in-out
                                peer-data-[state=unchecked]:bg-card peer-data-[state=unchecked]:text-card-foreground peer-data-[state=unchecked]:border-border
                                peer-data-[state=checked]:bg-red-600 peer-data-[state=checked]:text-white peer-data-[state=checked]:border-red-700
@@ -233,7 +233,7 @@ export default function AttendanceTaking() {
 
       <Card className="shadow-lg">
         <CardHeader>
-          <CardTitle className="text-2xl">Lista de Asistentes</CardTitle>
+          <CardTitle className="text-2xl mb-4">Lista de Asistentes</CardTitle>
           <div className="relative mt-2">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-black/80" />
             <Input
