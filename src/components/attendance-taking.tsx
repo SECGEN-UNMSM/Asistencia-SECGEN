@@ -68,11 +68,7 @@ export default function AttendanceTaking() {
       !filteredAttendees.find((a) => a.id === currentAttendee.id) &&
       filteredAttendees.length > 0
     ) {
-      // This logic might need refinement if search causes jumps. For now, it's kept as is.
-      // const originalIndexOfFirstFiltered = attendees.findIndex(a => a.id === filteredAttendees[0].id);
-      // if (originalIndexOfFirstFiltered !== -1) {
-      // // setCurrentIndex(originalIndexOfFirstFiltered);
-      // }
+      // Logic for search interaction (kept as is)
     }
   }, [searchTerm, filteredAttendees, currentAttendee, attendees]);
 
@@ -91,13 +87,10 @@ export default function AttendanceTaking() {
   }
 
   return (
-    <div className="container mx-auto p-4 space-y-6">
-      <div className="flex flex-col lg:flex-row gap-6">
-        <Card className="shadow-xl lg:flex-grow">
+    <div className="container mx-auto p-4 space-y-6 min-h-screen flex flex-col">
+      <div className="flex flex-col lg:flex-row gap-6 flex-grow">
+        <Card className="shadow-xl lg:flex-grow flex flex-col">
           <CardHeader>
-            {/*<CardTitle className="text-4xl font-bold text-center text-black">
-              Tomar Asistencia
-            </CardTitle>*/}
             <Progress
               value={progress}
               className="w-full mt-2 bg-primary/20"
@@ -108,32 +101,32 @@ export default function AttendanceTaking() {
             } de ${attendees.length}`}</p>
           </CardHeader>
           {currentAttendee && (
-            <CardContent className="space-y-6">
-              <div className="text-center p-6 bg-primary/10 rounded-lg shadow">
+            <CardContent className="flex-grow flex flex-col items-center justify-center space-y-8">
+              <div className="text-center p-6 bg-primary/10 rounded-lg shadow-inner">
                 <h2
-                  className="text-4xl font-semibold text-black my-2"
+                  className="text-5xl md:text-7xl font-bold text-black my-2"
                   data-ai-hint="person name"
                 >
                   {currentAttendee.name}
                 </h2>
               </div>
 
-              <div className="flex justify-center items-center space-x-4">
+              <div className="flex justify-center items-center space-x-6">
                 <Button
                   onClick={handlePrevious}
                   disabled={currentIndex === 0}
                   size="lg"
-                  className="bg-accent hover:bg-accent/90 text-accent-foreground"
+                  className="bg-accent hover:bg-accent/90 text-accent-foreground transform hover:scale-105 transition-transform h-16 text-xl"
                 >
-                  <SkipBack className="mr-2 h-5 w-5" /> Anterior
+                  <SkipBack className="mr-2 h-7 w-7" /> Anterior
                 </Button>
                 <Button
                   onClick={handleNext}
                   disabled={currentIndex === attendees.length - 1}
                   size="lg"
-                  className="bg-accent hover:bg-accent/90 text-accent-foreground"
+                  className="bg-accent hover:bg-accent/90 text-accent-foreground transform hover:scale-105 transition-transform h-16 text-xl"
                 >
-                  Siguiente <SkipForward className="ml-2 h-5 w-5" />
+                  Siguiente <SkipForward className="ml-2 h-7 w-7" />
                 </Button>
               </div>
 
@@ -145,7 +138,7 @@ export default function AttendanceTaking() {
                     status as "present" | "absent" | "unmarked"
                   )
                 }
-                className="flex flex-col sm:flex-row justify-center items-center gap-4 py-4"
+                className="flex flex-col sm:flex-row justify-center items-center gap-6 py-4"
               >
                 <div className="flex items-center">
                   <RadioGroupItem
@@ -155,14 +148,14 @@ export default function AttendanceTaking() {
                   />
                   <Label
                     htmlFor={`status-present-${currentAttendee.id}`}
-                    className="flex items-center justify-center w-56 h-16 p-3 border-2 rounded-lg shadow-md cursor-pointer text-lg font-semibold
+                    className="flex items-center justify-center w-72 h-24 p-4 border-2 rounded-lg shadow-md cursor-pointer text-2xl font-semibold
                                transition-all duration-150 ease-in-out
                                peer-data-[state=unchecked]:bg-card peer-data-[state=unchecked]:text-card-foreground peer-data-[state=unchecked]:border-border
                                peer-data-[state=checked]:bg-green-600 peer-data-[state=checked]:text-white peer-data-[state=checked]:border-green-700
                                hover:peer-data-[state=unchecked]:bg-green-50 hover:peer-data-[state=unchecked]:border-green-400
                                focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
                   >
-                    <CheckCircle2 className="mr-2 h-6 w-6" /> Asistió
+                    <CheckCircle2 className="mr-3 h-8 w-8" /> Asistió
                   </Label>
                 </div>
                 <div className="flex items-center">
@@ -173,57 +166,68 @@ export default function AttendanceTaking() {
                   />
                   <Label
                     htmlFor={`status-absent-${currentAttendee.id}`}
-                    className="flex items-center justify-center w-56 h-16 p-3 border-2 rounded-lg shadow-md cursor-pointer text-lg font-semibold
+                    className="flex items-center justify-center w-72 h-24 p-4 border-2 rounded-lg shadow-md cursor-pointer text-2xl font-semibold
                                transition-all duration-150 ease-in-out
                                peer-data-[state=unchecked]:bg-card peer-data-[state=unchecked]:text-card-foreground peer-data-[state=unchecked]:border-border
                                peer-data-[state=checked]:bg-red-600 peer-data-[state=checked]:text-white peer-data-[state=checked]:border-red-700
                                hover:peer-data-[state=unchecked]:bg-red-50 hover:peer-data-[state=unchecked]:border-red-400
                                focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
                   >
-                    <XCircle className="mr-2 h-6 w-6" /> No Asistió
+                    <XCircle className="mr-3 h-8 w-8" /> No Asistió
                   </Label>
                 </div>
               </RadioGroup>
             </CardContent>
           )}
-          <CardFooter className="flex justify-center">
+          <CardFooter className="flex justify-center py-6">
             <Button
               onClick={() => router.push("/summary")}
               size="lg"
-              className="bg-accent hover:bg-accent/90 text-accent-foreground"
+              className="bg-accent hover:bg-accent/90 text-accent-foreground h-16 text-xl"
             >
-              <ListChecks className="mr-2 h-5 w-5" /> Ver Registro
+              <ListChecks className="mr-2 h-7 w-7" /> Ver Registro
             </Button>
           </CardFooter>
         </Card>
 
-        <Card className="shadow-xl lg:w-full lg:max-w-xs xl:max-w-sm">
-          <CardHeader>
-            <CardTitle className="text-4xl text-center text-black">
+        <Card className="shadow-xl lg:w-full lg:max-w-xs xl:max-w-sm flex flex-col">
+          <CardHeader className="pb-4">
+            <CardTitle className="text-5xl text-center text-black">
               Resumen
             </CardTitle>
           </CardHeader>
-          <CardContent className="space-y-3 text-3xl">
-            <div className="flex items-center justify-between p-3 bg-primary/10 rounded-md">
+          <CardContent className="flex-grow flex flex-col space-y-6 pt-4">
+            <div className="flex items-center justify-between p-4 bg-primary/10 rounded-lg">
               <div className="flex items-center">
-                <CheckCircle2 className="mr-3 h-6 w-6 text-[#009900]" />
-                <span className="font-medium">Asistentes:</span>
+                <CheckCircle2 className="mr-4 h-8 w-8 text-green-600" />
+                {/* CAMBIO: Texto de "Asistentes" más grande */}
+                <span className="text-2xl md:text-3xl font-medium">
+                  Asistentes:
+                </span>
               </div>
-              <span className="font-bold text-[#009900]">{presentCount}</span>
+              <span className="text-2xl md:text-3xl font-bold text-green-600">
+                {presentCount}
+              </span>
             </div>
-            <div className="flex items-center justify-between p-3 bg-primary/10 rounded-md">
+            <div className="flex items-center justify-between p-4 bg-primary/10 rounded-lg">
               <div className="flex items-center">
-                <XCircle className="mr-3 h-6 w-6 text-red-500" />
-                <span className="font-medium">Ausentes:</span>
+                <XCircle className="mr-4 h-8 w-8 text-red-600" />
+                {/* CAMBIO: Texto de "Ausentes" más grande */}
+                <span className="text-2xl md:text-3xl font-medium">
+                  Ausentes:
+                </span>
               </div>
-              <span className="font-bold text-red-500">{absentCount}</span>
+              <span className="text-2xl md:text-3xl font-bold text-red-600">
+                {absentCount}
+              </span>
             </div>
-            <div className="flex items-center justify-between p-3 bg-primary/10 rounded-md mt-4 text-4xl">
+            <div className="flex items-center justify-between p-4 bg-primary/10 rounded-lg">
               <div className="flex items-center">
-                <Users className="mr-3 h-6 w-6 text-[#9E8110]" />
-                <span className="font-medium">Total:</span>
+                <Users className="mr-4 h-8 w-8 text-primary" />
+                {/* CAMBIO: Texto de "Total" más grande */}
+                <span className="text-2xl md:text-3xl font-medium">Total:</span>
               </div>
-              <span className="font-bold text-[#9E8110]">
+              <span className="text-2xl md:text-3xl font-bold text-primary">
                 {attendees.length}
               </span>
             </div>
@@ -276,14 +280,14 @@ export default function AttendanceTaking() {
                           ? "text-green-600"
                           : attendee.status === "absent"
                           ? "text-red-600"
-                          : ""
+                          : "text-muted-foreground"
                       }`}
                     >
                       {attendee.status === "present"
                         ? "Asistió"
                         : attendee.status === "absent"
                         ? "No Asistió"
-                        : ""}
+                        : "Sin Marcar"}
                     </span>
                   </div>
                   {index < filteredAttendees.length - 1 && (
