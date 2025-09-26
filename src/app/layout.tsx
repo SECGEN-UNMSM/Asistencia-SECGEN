@@ -18,7 +18,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Control de Asistencia",
-  description: "Streamlined attendance tracking with AI name announcement.",
+  description: "Sistema de asistencia.",
 };
 
 export default function RootLayout({
