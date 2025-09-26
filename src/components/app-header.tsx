@@ -18,7 +18,7 @@ export default function AppHeader() {
       className="sticky top-0 z-50 w-full flex justify-center items-center border-b bg-primary shadow-sm"
       style={{ height: "var(--header-height, 4rem)" }}
     >
-      <div className="container flex h-16 items-center justify-between px-4 md:px-6">
+      <div className="w-full flex h-16 items-center justify-between px-4 md:px-6">
         <Link
           href="/"
           className="flex items-center space-x-2 text-primary-foreground hover:text-primary-foreground/80 transition-colors"

@@ -87,8 +87,8 @@ export default function AttendanceTaking() {
   }
 
   return (
-    <div className="p-4 space-y-6 min-h-screen flex flex-col">
-      <div className="flex flex-col lg:flex-row gap-6 flex-grow">
+    <div className="p-4 space-y-6 min-h-screen w-full flex flex-col">
+      <div className="flex flex-col lg:flex-row gap-6 flex-grow w-full">
         <Card className="shadow-xl lg:flex-grow flex flex-col">
           <CardHeader>
             <Progress
@@ -102,9 +102,9 @@ export default function AttendanceTaking() {
           </CardHeader>
           {currentAttendee && (
             <CardContent className="flex-grow flex flex-col items-center justify-center space-y-8">
-              <div className="text-center p-6 bg-primary/10 rounded-lg shadow-inner">
+              <div className="w-full flex items-center text-center p-6 bg-primary/10 rounded-lg shadow-inner min-h-56">
                 <h2
-                  className="text-5xl md:text-7xl font-bold text-black my-2 "
+                  className="w-full text-5xl md:text-7xl font-bold text-black my-2 break-words"
                   data-ai-hint="person name"
                 >
                   {currentAttendee.name}
@@ -190,7 +190,7 @@ export default function AttendanceTaking() {
           </CardFooter>
         </Card>
 
-        <Card className="shadow-xl lg:w-full lg:max-w-xs xl:max-w-xl flex flex-col pt-24">
+        <Card className="shadow-xl w-full max-w-xl flex flex-col pt-24">
           <CardHeader className="pb-4">
             <CardTitle className="text-5xl text-center text-black">
               Contador
@@ -200,8 +200,7 @@ export default function AttendanceTaking() {
             <div className="flex items-center justify-between p-4 bg-primary/10 rounded-lg">
               <div className="flex items-center">
                 <CheckCircle2 className="mr-4 h-8 w-8 text-blue-800" />
-                {/* CAMBIO: Texto de "Asistentes" más grande */}
-                <span className="text-2xl md:text-3xl font-medium">
+                <span className="text-3xl md:text-3xl font-semibold">
                   Asistentes:
                 </span>
               </div>
@@ -225,7 +224,7 @@ export default function AttendanceTaking() {
               <div className="flex items-center">
                 <Users className="mr-4 h-8 w-8 text-zinc-700" />
                 {/* CAMBIO: Texto de "Total" más grande */}
-                <span className="text-2xl md:text-3xl font-medium">Total:</span>
+                <span className="text-3xl font-semibold">Total:</span>
               </div>
               <span className="text-6xl font-bold text-zinc-700">
                 {attendees.length}
@@ -235,7 +234,7 @@ export default function AttendanceTaking() {
         </Card>
       </div>
 
-      <Card className="shadow-lg">
+      <Card className="shadow-lg w-full">
         <CardHeader>
           <CardTitle className="text-2xl mb-4">Lista de Asistentes</CardTitle>
           <div className="relative mt-2">
