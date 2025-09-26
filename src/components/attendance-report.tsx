@@ -51,7 +51,7 @@ export default function AttendanceReport({ attendees }: AttendanceReportProps) {
               </TableRow>
               <TableRow>
                 <TableCell className="font-medium">
-                  <CheckCircle2 className="inline-block mr-2 h-4 w-4 text-green-500" />
+                  <CheckCircle2 className="inline-block mr-2 h-4 w-4 text-blue-800" />
                   Asistentes
                 </TableCell>
                 <TableCell className="text-right">
@@ -75,13 +75,13 @@ export default function AttendanceReport({ attendees }: AttendanceReportProps) {
       <Card className="shadow-lg">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-xl font-semibold">Asistentes</CardTitle>
-          <CheckCircle2 className="h-6 w-6 text-green-500" />
+          <CheckCircle2 className="h-6 w-6 text-blue-800" />
         </CardHeader>
         <CardContent>
-          <div className="text-3xl font-bold text-green-500">
+          <div className="text-6xl font-bold text-blue-800">
             {presentAttendees.length}
           </div>
-          <p className="text-xs text-muted-foreground">
+          <p className="text-sm text-muted-foreground">
             de un total de {attendees.length} personas
           </p>
           <ScrollArea className="h-[200px] mt-4">
@@ -90,7 +90,7 @@ export default function AttendanceReport({ attendees }: AttendanceReportProps) {
                 {presentAttendees.map((attendee) => (
                   <li
                     key={attendee.id}
-                    className="text-sm p-2 rounded-md border"
+                    className="text-base p-2 rounded-md border"
                     data-ai-hint="person name"
                   >
                     {attendee.name}
@@ -98,7 +98,7 @@ export default function AttendanceReport({ attendees }: AttendanceReportProps) {
                 ))}
               </ul>
             ) : (
-              <p className="text-sm text-muted-foreground italic">
+              <p className="text-base text-muted-foreground italic">
                 Ningún asistente marcado como presente.
               </p>
             )}
@@ -112,10 +112,10 @@ export default function AttendanceReport({ attendees }: AttendanceReportProps) {
           <XCircle className="h-6 w-6 text-red-500" />
         </CardHeader>
         <CardContent>
-          <div className="text-3xl font-bold text-red-500">
+          <div className="text-6xl font-bold text-red-500">
             {absentAttendees.length}
           </div>
-          <p className="text-xs text-muted-foreground">
+          <p className="text-sm text-muted-foreground">
             de un total de {attendees.length} personas
           </p>
           <ScrollArea className="h-[200px] mt-4">
@@ -132,7 +132,7 @@ export default function AttendanceReport({ attendees }: AttendanceReportProps) {
                 ))}
               </ul>
             ) : (
-              <p className="text-sm text-muted-foreground italic">
+              <p className="text-base text-muted-foreground italic">
                 Ningún asistente marcado como ausente.
               </p>
             )}
